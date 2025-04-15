@@ -35,6 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
-init.script.py
-new-service.py
+
+### No repositorio ###
 .env

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.dnd.InvalidDnDOperationException;
 import java.util.List;
 
 @RestController
@@ -26,6 +27,24 @@ public class petController {
     public ResponseEntity<pet> createPetController(@RequestBody pet newPet) {
         pet createdPet = petService.createPet(newPet);
         return new ResponseEntity<>(createdPet, HttpStatus.CREATED);
+    }
+}
+
+public class calculatorController {
+    @Autowired
+    private calculatorService service;
+    public calculatorController(calculatorService service) {
+        this.service = service;
+    }
+    @GetMapping("/resta/{a}/{b}")
+    public ResponseEntity<?> resta(@PathVariable long a, @PathVariable long b){
+        try {
+            Long result = service.resta(a,b);
+            return ResponseEntity.ok(result);
+        } catch (InvalidDnDOperationException err) {
+            String errMsg = err.getMessage();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error 404: " + errMsg);
+        }
     }
 }
 // UTILIZAMOS LAS FUNCIONES DEL SERVICIO Y LLAMA LAS FUNCIONES -> SERVICIO QUE TIENES LA LÓGICA
